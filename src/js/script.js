@@ -1,4 +1,4 @@
-import * as data from './data.js';
+//import * as data from './data.js';  Este es el import que trae los datos en la versión no-asincrona
 import * as helper from './helper.js';
 
 import * as headerFooter from './header-footer.js';

@@ -39,6 +39,8 @@ export const toggleAlertVisibility = function (overlay, alertMsg) {
   alertMsg.classList.toggle('hidden');
 };
 
+//LAS FUNCIONES DE LOCAL STORAGE NO SERVIRÁN PARA LAS API
+
 // Set data into the browser's local storage
 export const setLocalStorage = function (usersArr) {
   localStorage.setItem('users', JSON.stringify(usersArr));
