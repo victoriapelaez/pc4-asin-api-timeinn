@@ -1,4 +1,6 @@
-//import * as data from './data.js';  Este es el import que trae los datos en la versión no-asincrona
+import * as data from './data.js'; //Este es el import que trae los datos en la versión no-asincrona
+import * as eventData from './model.js';
+
 import * as helper from './helper.js';
 
 import * as headerFooter from './header-footer.js';
@@ -19,28 +21,51 @@ if (module.hot) {
   module.hot.accept();
 }
 
-const eventsDataCopy = [...data.theaterData.events];
+/* const eventsDataCopy = [...eventData]; */
 
 // ScrollUp handler
 scroll.scrollUpHandler();
+
+let EVENTS = [];
+window.addEventListener('load', () => {
+  eventData.getDataAllEvents().then(data => {
+    EVENTS = data;
+    console.log(EVENTS);
+
+    // Render the first section: events of the day
+    firstSection.render(firstSection.generateVideoMarkup(EVENTS));
+    firstSection.render(firstSection.generateInfoMarkup(EVENTS));
+
+    // Render the second section: events of the week
+    secondSection.generateImgBkg(EVENTS);
+    secondSection.render(secondSection.generateInfoMarkup(EVENTS));
+    secondSection.displayEventHandler(EVENTS);
+
+    // Render the event when a tickets button is clicked
+    eventPage.render(eventPage.generateEventMarkup(EVENTS));
+
+    // Render all events into all-events page
+    EVENTS.forEach(event =>
+      allEventsPage.render(allEventsPage.generateEventsMarkup(event))
+    );
+    // Filter events by type
+    allEventsPage.renderFilterButtons(
+      allEventsPage.generateFilterMarkup(EVENTS)
+    );
+    allEventsPage.filterHandler(EVENTS);
+    // Search events
+    allEventsPage.searchHandler(EVENTS);
+    // Filter events by date
+    allEventsPage.btnFindHandler(EVENTS);
+    // Upload and save new event
+    allEventsPage.uploadBtnHandler(EVENTS);
+  });
+});
 
 // Render header and footer
 const userName = helper.filterUserCookie()?.replace('user=', '');
 headerFooter.renderHeader(userName);
 headerFooter.renderFooter();
-
-// Render the first section: events of the day
-firstSection.render(firstSection.generateVideoMarkup(data.theaterData.events));
-firstSection.render(firstSection.generateInfoMarkup(data.theaterData.events));
-
-// Render the second section: events of the week
-window.addEventListener('load', () => {
-  secondSection.generateImgBkg(data.theaterData.events);
-  secondSection.render(
-    secondSection.generateInfoMarkup(data.theaterData.events)
-  );
-});
-secondSection.displayEventHandler(data.theaterData.events);
 
 //Render Calendar
 calendar.render(calendar.createCalendar());
@@ -64,25 +89,6 @@ if (!cookies.includes('session=Cookie')) {
   subscription.addHandlerHideForm();
   subscription.sendBtnHandler();
 }
-
-// Render the event when a tickets button is clicked
-eventPage.render(eventPage.generateEventMarkup(data.theaterData.events));
-
-// Render all events into all-events page
-data.theaterData.events.forEach(event =>
-  allEventsPage.render(allEventsPage.generateEventsMarkup(event))
-);
-// Filter events by type
-allEventsPage.renderFilterButtons(
-  allEventsPage.generateFilterMarkup(data.theaterData.events)
-);
-allEventsPage.filterHandler(data.theaterData.events);
-// Search events
-allEventsPage.searchHandler(data.theaterData.events);
-// Filter events by date
-allEventsPage.btnFindHandler(data.theaterData.events);
-// Upload and save new event
-allEventsPage.uploadBtnHandler(eventsDataCopy);
 
 // Render the all-news Page
 newsSection
