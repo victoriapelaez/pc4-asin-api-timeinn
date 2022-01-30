@@ -3,10 +3,10 @@
  * @param {string} word
  * @returns Returns a string with the first letter in uppercase
  */
-export const firstUpperLetter = function (word) {
+/* export const firstUpperLetter = function (word) {
   const firstLetter = word.split('')[0].toUpperCase();
   return firstLetter.concat(word.slice(1, word.length));
-};
+}; */
 
 /**
  * A function to sort the events by its date

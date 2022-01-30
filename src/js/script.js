@@ -1,5 +1,5 @@
 import * as data from './data.js'; //Este es el import que trae los datos en la versión no-asincrona
-import * as eventData from './model.js';
+import * as model from './model.js';
 
 import * as helper from './helper.js';
 
@@ -21,17 +21,22 @@ if (module.hot) {
   module.hot.accept();
 }
 
-/* const eventsDataCopy = [...eventData]; */
+/* const eventsDataCopy = [...model]; */
 
 // ScrollUp handler
 scroll.scrollUpHandler();
 
+// Render header and footer
+const userName = helper.filterUserCookie()?.replace('user=', '');
+headerFooter.renderHeader(userName);
+headerFooter.renderFooter();
+
 let EVENTS = [];
 window.addEventListener('load', () => {
-  eventData.getDataAllEvents().then(data => {
+  //const EVENTS = await model.getDataAllEvents();
+  model.getDataAllEvents().then(data => {
     EVENTS = data;
-    console.log(EVENTS);
-
+    
     // Render the first section: events of the day
     firstSection.render(firstSection.generateVideoMarkup(EVENTS));
     firstSection.render(firstSection.generateInfoMarkup(EVENTS));
@@ -58,14 +63,13 @@ window.addEventListener('load', () => {
     // Filter events by date
     allEventsPage.btnFindHandler(EVENTS);
     // Upload and save new event
-    allEventsPage.uploadBtnHandler(EVENTS);
+    allEventsPage.uploadBtnHandler(model.addEvent, EVENTS);
+    //Delete event
+    allEventsPage.deleteEventHandler(model.deleteEvent);
+    //Edit Event
+    allEventsPage.editEventHandler(model.editEvent, EVENTS);
   });
 });
-
-// Render header and footer
-const userName = helper.filterUserCookie()?.replace('user=', '');
-headerFooter.renderHeader(userName);
-headerFooter.renderFooter();
 
 //Render Calendar
 calendar.render(calendar.createCalendar());

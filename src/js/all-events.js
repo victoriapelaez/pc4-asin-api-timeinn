@@ -1,4 +1,4 @@
-import { firstUpperLetter, emptyInputValues } from './helper.js';
+import { /* firstUpperLetter, */ emptyInputValues } from './helper.js';
 
 const eventsContainer = document.querySelector('.allevents-container');
 
@@ -13,6 +13,8 @@ const inputTitle = document.querySelector('.title');
 const inputImgURL = document.querySelector('.imgURL');
 const inputDesc = document.querySelector('.description');
 const inputDates = document.querySelector('.dates');
+const inputType = document.querySelector('.type');
+
 
 const editBtn = document.querySelector('.edit__btn');
 
@@ -37,7 +39,8 @@ export const generateEventsMarkup = function (event) {
   return `
     <div class="single-event-container">
       <img src="${event.imgURL}" alt="${event.title}">
-      <h2 class="event-title">${event.title}</h2>
+      <h2 class="event-title">${event.title}<span style="visibility: hidden">${event.id}</span>
+      <a href="#" class="event-link">Comprar</a></h2>
       <p class="event-desc">${event.description}</p>
       <p class="event-dates">${localeDate}</p>
       <button class="btn-icon edit-icon"><i class="far fa-edit"></i></button>
@@ -59,7 +62,23 @@ export const render = function (markup) {
  * @param {array} events
  * @returns A string of html buttons
  */
+
 export const generateFilterMarkup = function (events) {
+  if (!events) return;
+  let buttons = '<button class="btn-filter btn-all-events">All events</button>';
+  const uniqueEventTypes = [...new Set(events.map(event => event.type))];
+  console.log(uniqueEventTypes);
+  uniqueEventTypes.forEach(eventType => {
+    buttons += `
+    <button class="btn-filter btn-${eventType}">${eventType}</button>
+    `;
+  });
+  console.log(buttons);
+  return buttons;
+  
+};
+
+/* export const generateFilterMarkup = function (events) {
   if (!events) return;
   let buttons = '<button class="btn-filter btn-all-events">All events</button>';
   const uniqueEventTypes = [...new Set(events.map(event => event.type))];
@@ -71,7 +90,7 @@ export const generateFilterMarkup = function (events) {
     `;
   });
   return buttons;
-};
+}; */
 
 /**
  * A function that renders all the buttons that will be used to filter the events by its type
@@ -159,23 +178,25 @@ addHandlerHideForm();
 /**
  * A function to handle the clicks on the modal form upload button
  */
-export const uploadBtnHandler = function (data) {
+export const uploadBtnHandler = function (uploadFunc, data) {
   if (!uploadBtn) return;
   uploadBtn.addEventListener('click', e => {
     e.preventDefault();
-    uploadEvent(data);
+    uploadEvent(uploadFunc, data);
+    location.reload();
   });
 };
 
 /**
  * A function to render the new event given the data added by the user into the modal form
  */
-const uploadEvent = function (data) {
+const uploadEvent = function (uploadFunc, data) {
   if (!eventsContainer) return;
   const formData = getFormData();
   const markup = generateEventsMarkup(formData);
   data.push(formData);
-  eventsContainer.insertAdjacentHTML('afterbegin', markup);
+  uploadFunc(formData);
+  eventsContainer.insertAdjacentHTML('beforeend', markup);
   toggleWindow();
   emptyInputValues(inputTitle, inputImgURL, inputDesc, inputDates);
 };
@@ -194,17 +215,20 @@ const getFormData = function () {
 /**
  * A function to handle the clicks on the trash icon of the event
  */
-const deleteEventHandler = function () {
+export const deleteEventHandler = function (deleteFunc) {
   if (!eventsContainer) return;
   eventsContainer.addEventListener('click', e => {
+    e.stopPropagation();
     const btn = e.target.closest('.btn-icon');
     if (!btn) return;
     if (btn.classList.contains('trash-icon')) {
       deleteEvent(btn);
+      const eventId =
+        btn.parentElement.childNodes[3].firstElementChild.innerHTML;
+      deleteFunc(eventId);
     }
   });
 };
-deleteEventHandler();
 
 /**
  * A function that deletes an element
@@ -234,8 +258,9 @@ const generateEditedEventMarkup = function (event) {
   const localeDate = new Date(eventsNearDate).toLocaleDateString();
   return `
       <img src="${event.imgURL}" alt="${event.title}">
-      <h2 class="event-title">${event.title}</h2>
+      <h2 class="event-title">${event.title}<span style="visibility: hidden">${event.id}</span></h2>
       <p class="event-desc">${event.description}</p>
+      <p class="event-desc">${event.type}</p>
       <p class="event-dates">${localeDate}</p>
       <button class="btn-icon edit-icon"><i class="far fa-edit"></i></button>
       <button class="btn-icon trash-icon"><i class="fas fa-trash-alt"></i></button>
@@ -246,23 +271,27 @@ const generateEditedEventMarkup = function (event) {
  * A function that given an element (an event container) will put the form data of the edited element within the element
  * @param {element} parentElem
  */
-const editEvent = function (parentElem) {
+const editEvent = function (parentElem, editFunc, eventId) {
   const formData = getFormData();
   const markup = generateEditedEventMarkup(formData);
   parentElem.innerHTML = markup;
-  emptyInputValues(inputTitle, inputImgURL, inputDesc, inputDates);
+  emptyInputValues(inputTitle, inputImgURL, inputDesc, inputDates, inputType);
+  editFunc(eventId, formData);
+  setTimeout(() => {
+    location.reload();
+  }, 1000);
 };
 
 /**
  * A function to handle the clicks on the modal form edit button
  * @param {element} parentElem
  */
-const editBtnHandler = function (parentElem) {
+const editBtnHandler = function (parentElem, editFunc, eventId) {
   if (!editBtn) return;
   editBtn.addEventListener('click', e => {
     e.preventDefault();
     toggleWindow();
-    editEvent(parentElem);
+    editEvent(parentElem, editFunc, eventId);
     toggleBtnVisibility();
   });
 };
@@ -270,7 +299,7 @@ const editBtnHandler = function (parentElem) {
 /**
  * A function to handle the clicks on the edit icon of the event
  */
-const editEventHandler = function () {
+export const editEventHandler = function (editFunc) {
   if (!eventsContainer) return;
   eventsContainer.addEventListener('click', e => {
     const btn = e.target.closest('.btn-icon');
@@ -280,11 +309,12 @@ const editEventHandler = function () {
         toggleBtnVisibility();
       }
       toggleWindow();
-      editBtnHandler(btn.parentElement);
+      const eventId =
+        btn.parentElement.childNodes[3].firstElementChild.innerHTML;
+      editBtnHandler(btn.parentElement, editFunc, eventId);
     }
   });
 };
-editEventHandler();
 
 /**
  * A function to handle the clicks on the search icon and the filter the events by the word given as an input.
