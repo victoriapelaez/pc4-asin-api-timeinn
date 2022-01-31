@@ -20,7 +20,7 @@ export async function getOneEvent(id) {
   } catch (error) {
     console.log('Error en el Fetch:', error);
   }
-} 
+}
 
 //funcion añadir evento
 export async function addEvent(data) {
@@ -40,42 +40,92 @@ export async function addEvent(data) {
 //funcion delete 1 event
 export async function deleteEvent(id) {
   try {
-    const response = await fetch(URL_ENDPOINT + `/events/${id}`,
-    {
-      method:'DELETE',
+    const response = await fetch(URL_ENDPOINT + `/events/${id}`, {
+      method: 'DELETE',
     });
     const data = await response.json();
     return data;
   } catch (error) {
     console.log('Error en el Fetch:', error);
   }
-}  
+}
 
 //funcion actualizar evento
-export async function editEvent(id, data){
-try {
-    const response = await fetch(URL_ENDPOINT + `/events/${id}`,{
-      method:'PATCH',
-      headers:{
-        'Content-Type':'application/json',
-      },
-      body: JSON.stringify(data)
-      }).then(response => console.log(response.status));
-  } catch (error) {
-    console.log('Error en el Fetch:', error);
-  }
-} 
-
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////7
-
-//function users
-/* export async function getUserData() {
+export async function editEvent(id, data) {
   try {
-    const response = await fetch(URL_ENDPOINT + '/events');
-    const data = await response.json();
-    return data;
+    const response = await fetch(URL_ENDPOINT + `/events/${id}`, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data),
+    }).then(response => console.log(response.status));
   } catch (error) {
     console.log('Error en el Fetch:', error);
   }
-} */
+}
+//////////////////////////////////////////////////////////////////////
+
+//get images
+
+async function getImage() {
+  let link = document.createElement('a');
+  // Fetch número 1
+  const response1 = await fetch(URL_ENDPOINT + '/events');
+  console.log(response1);
+  const json = await response1.json();
+  console.log(json);
+  /* let object = JSON.stringify(json)
+  let objectImg = object.imgURL
+  console.log(object); */
+  const response2 = await fetch(json.imgUrl);
+  let blob = new Blob(['json']);
+  console.log(response2);
+  console.log(blob);
+  const imatge = await response2.blob();
+  console.log(imatge);
+  link.href = URL.createObjectURL(imatge);
+  console.log(link.href);
+}
+getImage(URL_ENDPOINT).catch(error =>
+  console.log('Error en codi asíncron', error)
+);
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+const URL_USERS = 'http://localhost:3001';
+
+//all users data-login?
+
+export async function loginUser(email, password) {
+  try {
+    const response = await fetch(URL_USERS + '/auth/login', {
+      method: 'GET',
+      headers: { Autorization: 'Basic ' + btoa(`${email}:${password}`)},
+    });
+    const dataToken = await response.json();
+    return dataToken.access_token;
+  } catch (error) {
+    console.log('Error en el Fetch:', error);
+  }
+}
+
+//register
+export async function registerUser(user) {
+  console.log(user);
+  try {
+    const response = await fetch(URL_USERS + '/auth/register', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        email: user.email,
+        password: user.password,
+      }),
+    });
+    console.log(user);
+  } catch (error) {
+    console.log('Error en el Fetch:', error);
+  }
+}

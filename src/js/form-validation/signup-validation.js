@@ -22,13 +22,13 @@ const eyeBtnRpt = document.querySelector('.repeat');
 const overlay = document.querySelector('.overlay');
 const alertMsg = document.querySelector('.alert-msg');
 
-const userData = {
+ const userData = {
   user: '',
   name: '',
   lastName: '',
   email: '',
   password: '',
-};
+}; 
 
 const sendNameMessage = function (userNameInput) {
   const alertContainer = document.querySelector('.alert-container');
@@ -107,7 +107,7 @@ export const emailFocusHandler = function (usersData) {
 };
 
 //Password Validation
-const sendPasswMessage = function (userPassInput) {
+/* const sendPasswMessage = function (userPassInput) {
   if (!passInputCont) return;
   try {
     const alertContainer = document.querySelector('.alert-container');
@@ -128,9 +128,9 @@ const sendPasswMessage = function (userPassInput) {
   } catch (err) {
     console.error(err);
   }
-};
+}; */
 
-export const passwFocusHandler = function () {
+/* export const passwFocusHandler = function () {
   try {
     if (!passInput) return;
     passInput.addEventListener('focusout', e => {
@@ -140,10 +140,10 @@ export const passwFocusHandler = function () {
   } catch (err) {
     console.error(err);
   }
-};
+}; */
 
 //Functions to validate if passws match
-const sendPasswMatchMessage = function (userPassInput, userPassRptInput) {
+/* const sendPasswMatchMessage = function (userPassInput, userPassRptInput) {
   if (!passInputCont) return;
   const alertContainer = document.querySelector('.alert-container');
   if (!inputContainerPasswMatch) return;
@@ -162,9 +162,9 @@ const sendPasswMatchMessage = function (userPassInput, userPassRptInput) {
       alertContainer.outerHTML = '';
     }
   }
-};
+}; */
 
-export const passwMatchFocusHandler = function () {
+/* export const passwMatchFocusHandler = function () {
   try {
     if (!passInput || !passRptInput) return;
     passRptInput.addEventListener('focusout', e => {
@@ -174,7 +174,7 @@ export const passwMatchFocusHandler = function () {
   } catch (err) {
     console.error(err);
   }
-};
+}; */
 
 //show error mssg
 const generateAlert = function (msg) {
@@ -219,7 +219,7 @@ const getUserData = function () {
   return userData;
 };
 
-export const signupBtnHandler = function (usersData) {
+export const signupBtnHandler = function (registerFunction) {
   if (
     !signupBtn ||
     !usernameInput ||
@@ -235,23 +235,23 @@ export const signupBtnHandler = function (usersData) {
   signupBtn.addEventListener('click', e => {
     e.preventDefault();
     e.stopPropagation();
-    const data = getUserData();
-    if (data.email) {
+    let userData = getUserData();
+    registerFunction(userData)
+    /* if (data.email) {
       usersData.push(data);
       helper.setLocalStorage(usersData);
+      helper.toggleAlertVisibility(overlay, alertMsg);*/
+    setTimeout(() => {
       helper.toggleAlertVisibility(overlay, alertMsg);
       setTimeout(() => {
-        helper.toggleAlertVisibility(overlay, alertMsg);
-        setTimeout(() => {
-          window.location.replace('login.html');
-        }, 1000);
-      }, 3000);
-      usernameInput.value = '';
+        window.location.replace('login.html');
+      }, 1000);
+    }, 3000);
+    /* usernameInput.value = '';
       nameInput.value = '';
       lastnameInput.value = '';
       emailInput.value = '';
       passInput.value = '';
-      passRptInput.value = '';
-    }
+      passRptInput.value = ''; */
   });
 };

@@ -67,15 +67,12 @@ export const generateFilterMarkup = function (events) {
   if (!events) return;
   let buttons = '<button class="btn-filter btn-all-events">All events</button>';
   const uniqueEventTypes = [...new Set(events.map(event => event.type))];
-  console.log(uniqueEventTypes);
   uniqueEventTypes.forEach(eventType => {
     buttons += `
     <button class="btn-filter btn-${eventType}">${eventType}</button>
     `;
   });
-  console.log(buttons);
   return buttons;
-  
 };
 
 /* export const generateFilterMarkup = function (events) {

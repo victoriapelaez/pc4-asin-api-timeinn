@@ -31,43 +31,43 @@ const userName = helper.filterUserCookie()?.replace('user=', '');
 headerFooter.renderHeader(userName);
 headerFooter.renderFooter();
 
-let EVENTS = [];
+let events = [];
 window.addEventListener('load', () => {
   //const EVENTS = await model.getDataAllEvents();
   model.getDataAllEvents().then(data => {
-    EVENTS = data;
+    events = data;
     
     // Render the first section: events of the day
-    firstSection.render(firstSection.generateVideoMarkup(EVENTS));
-    firstSection.render(firstSection.generateInfoMarkup(EVENTS));
+    firstSection.render(firstSection.generateVideoMarkup(events));
+    firstSection.render(firstSection.generateInfoMarkup(events));
 
     // Render the second section: events of the week
-    secondSection.generateImgBkg(EVENTS);
-    secondSection.render(secondSection.generateInfoMarkup(EVENTS));
-    secondSection.displayEventHandler(EVENTS);
+    secondSection.generateImgBkg(events);
+    secondSection.render(secondSection.generateInfoMarkup(events));
+    secondSection.displayEventHandler(events);
 
     // Render the event when a tickets button is clicked
-    eventPage.render(eventPage.generateEventMarkup(EVENTS));
+    eventPage.render(eventPage.generateEventMarkup(events));
 
     // Render all events into all-events page
-    EVENTS.forEach(event =>
+    events.forEach(event =>
       allEventsPage.render(allEventsPage.generateEventsMarkup(event))
     );
     // Filter events by type
     allEventsPage.renderFilterButtons(
-      allEventsPage.generateFilterMarkup(EVENTS)
+      allEventsPage.generateFilterMarkup(events)
     );
-    allEventsPage.filterHandler(EVENTS);
+    allEventsPage.filterHandler(events);
     // Search events
-    allEventsPage.searchHandler(EVENTS);
+    allEventsPage.searchHandler(events);
     // Filter events by date
-    allEventsPage.btnFindHandler(EVENTS);
+    allEventsPage.btnFindHandler(events);
     // Upload and save new event
-    allEventsPage.uploadBtnHandler(model.addEvent, EVENTS);
+    allEventsPage.uploadBtnHandler(model.addEvent, events);
     //Delete event
     allEventsPage.deleteEventHandler(model.deleteEvent);
     //Edit Event
-    allEventsPage.editEventHandler(model.editEvent, EVENTS);
+    allEventsPage.editEventHandler(model.editEvent, events);
   });
 });
 
@@ -100,20 +100,23 @@ newsSection
   .forEach(news => newsPage.render(newsPage.generateAllNews(news)));
 newsPage.showContent();
 
+
+
 // Login
 loginValidation.checkboxHandler();
 loginValidation.sendToSignUpPage();
-const usersData = helper.getLocalStorage(data.users);
-loginValidation.loginBtnHandler(usersData);
+/* const usersData = helper.getLocalStorage(data.users); */
+loginValidation.loginBtnHandler(model.loginUser);
 
 // Signup
-signupValidation.emailFocusHandler(usersData);
+signupValidation.emailFocusHandler();
 signupValidation.nameFocusHandler();
 
-signupValidation.signupBtnHandler(usersData);
+signupValidation.signupBtnHandler(model.registerUser);
 
-signupValidation.passwFocusHandler();
-signupValidation.passwMatchFocusHandler();
+/* signupValidation.passwFocusHandler(); 
+signupValidation.passwMatchFocusHandler(); */
 
 //Show passw
 signupValidation.showPassw();
+  
