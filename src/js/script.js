@@ -105,8 +105,8 @@ newsPage.showContent();
 // Login
 loginValidation.checkboxHandler();
 loginValidation.sendToSignUpPage();
-/* const usersData = helper.getLocalStorage(data.users); */
-loginValidation.loginBtnHandler(model.loginUser);
+const usersData = helper.getLocalStorage(data.users);
+loginValidation.loginBtnHandler(model.loginUser,usersData);
 
 // Signup
 signupValidation.emailFocusHandler();

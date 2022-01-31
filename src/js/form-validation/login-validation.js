@@ -11,16 +11,18 @@ const emailInput = document.querySelector('.email-input');
 const passInput = document.querySelector('.pass-input');
 const btnLogin = document.querySelector('.btn-login');
 
-export const loginBtnHandler = function (usersArr) {
+export const loginBtnHandler = function (usersFunc, usersArr) {
   if (!btnLogin || !emailInput || !passInput) return;
   btnLogin.addEventListener('click', e => {
     e.preventDefault();
+    usersFunc(emailInput.value, passInput.value);
     const user = validationHelper.checkUserData(
       emailInput.value,
       passInput.value,
       usersArr
     );
     sendMsg(user);
+    console.log(emailInput.value, passInput.value);
   });
 };
 
