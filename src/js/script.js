@@ -21,7 +21,7 @@ if (module.hot) {
   module.hot.accept();
 }
 
-/* const eventsDataCopy = [...model]; */
+/* const eventsDataCopy = [...model]; */  
 
 // ScrollUp handler
 scroll.scrollUpHandler();
@@ -105,14 +105,14 @@ newsPage.showContent();
 // Login
 loginValidation.checkboxHandler();
 loginValidation.sendToSignUpPage();
-const usersData = helper.getLocalStorage(data.users);
+const usersData = [...helper.getLocalStorage(data.users)];
 loginValidation.loginBtnHandler(model.loginUser,usersData);
 
 // Signup
 signupValidation.emailFocusHandler();
 signupValidation.nameFocusHandler();
 
-signupValidation.signupBtnHandler(model.registerUser);
+signupValidation.signupBtnHandler(model.registerUser, usersData);
 
 /* signupValidation.passwFocusHandler(); 
 signupValidation.passwMatchFocusHandler(); */

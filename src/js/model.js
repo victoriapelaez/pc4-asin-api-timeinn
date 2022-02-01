@@ -12,7 +12,7 @@ export async function getDataAllEvents() {
 }
 
 //funcion get 1 event
-export async function getOneEvent(id) {
+/* export async function getOneEvent(id) {
   try {
     const response = await fetch(URL_ENDPOINT + `/events/${id}`);
     console.log(data);
@@ -20,7 +20,7 @@ export async function getOneEvent(id) {
   } catch (error) {
     console.log('Error en el Fetch:', error);
   }
-}
+} */
 
 //funcion añadir evento
 export async function addEvent(data) {
@@ -113,7 +113,6 @@ export async function loginUser(email, password) {
 
 //register
 export async function registerUser(user) {
-  console.log(user);
   try {
     const response = await fetch(URL_USERS + '/auth/register', {
       method: 'POST',
