@@ -12,15 +12,16 @@ export async function getDataAllEvents() {
 }
 
 //funcion get 1 event
-/* export async function getOneEvent(id) {
+export async function getOneEvent(id) {
   try {
     const response = await fetch(URL_ENDPOINT + `/events/${id}`);
+    const data = await response.json();
     console.log(data);
     return data;
   } catch (error) {
     console.log('Error en el Fetch:', error);
   }
-} */
+}
 
 //funcion añadir evento
 export async function addEvent(data) {

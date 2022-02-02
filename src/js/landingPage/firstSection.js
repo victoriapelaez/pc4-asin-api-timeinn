@@ -16,15 +16,16 @@ export const generateVideoMarkup = function (events) {
  * @param {array} events
  * @returns A string of the section data html
  */
-export const generateInfoMarkup = function (events) {
-  const firstDate = new Date(events[0].dates[0]).toLocaleDateString();
+export const generateInfoMarkup = function (funcOneEvent, event) {
+  funcOneEvent(event.id)
+  const firstDate = new Date(event.dates[0]).toLocaleDateString();
   const lastDate = new Date(
-    events[0].dates[events[0].dates.length - 1]
+    event.dates[event.dates.length - 1]
   ).toLocaleDateString();
   return `
     <div class="day-event-info">
-      <h1 class="day-event-title">${events[0].title}</h1>
-      <p class="day-event-type">${events[0].type}</p>
+      <h1 class="day-event-title">${event.title}</h1>
+      <p class="day-event-type">${event.type}</p>
       <p class="day-event-dates">${firstDate} - 
       ${lastDate}</p>
       <button class="tickets-btn day-tickets-btn" href="event.html">Tickets</button>
