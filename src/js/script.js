@@ -79,6 +79,13 @@ window.addEventListener('load',  () => {
   });
 });
 
+ async function renderEvent(){
+// Render the event when a tickets button is clicked
+let events = await model.getDataAllEvents()
+let markup =await eventPage.generateEventMarkup(events, model.getImage);
+eventPage.render(markup);
+} 
+renderEvent();
 
 //Render Calendar
 calendar.render(calendar.createCalendar());

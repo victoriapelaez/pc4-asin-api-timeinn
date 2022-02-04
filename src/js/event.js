@@ -5,7 +5,7 @@ const eventContainer = document.querySelector('.event-container');
  * @param {array} events
  * @returns
  */
-export async const generateEventMarkup = function (events, funcImg) {
+export const generateEventMarkup = async function (events, funcImg) {
 let srcImage = await funcImg()
   return `
   <section class="event">
@@ -39,7 +39,7 @@ let srcImage = await funcImg()
         </div>
       </section>
   `;
-};
+}; 
 
 /**
  * A function that given a string containing the html will render it within the event container of the event page
