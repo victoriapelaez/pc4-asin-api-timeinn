@@ -16,7 +16,6 @@ export async function getOneEvent(id) {
   try {
     const response = await fetch(URL_ENDPOINT + `/events/${id}`);
     const data = await response.json();
-    console.log(data);
     return data;
   } catch (error) {
     console.log('Error en el Fetch:', error);
@@ -69,41 +68,16 @@ export async function editEvent(id, data) {
 
 //get images
 
-async function getImage() {
-  let link = document.createElement('a');
-  // Fetch número 1
-  const response1 = await fetch(URL_ENDPOINT + '/events');
-  /* console.log(response1); */
-  const json = await response1.json();
-  /* console.log(json); */
-  /* let object = JSON.stringify(json)
-  let objectImg = object.imgURL
-  console.log(object); */
-  const response2 = await fetch(json.imgUrl);
-  let blob = new Blob(['json']);
-  /* console.log(response2);
-  console.log(blob) */;
-  const imatge = await response2.blob();
-  /* console.log(imatge); */
-  link.href = URL.createObjectURL(imatge);
-  /* console.log(link.href); */
-}
-getImage(URL_ENDPOINT).catch(error =>
-  console.log('Error en codi asíncron', error)
-);
-
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 const URL_USERS = 'http://localhost:3001';
 
 //login
 export async function loginUser(email, password) {
-  console.log(email);
-  console.log(password);
   try {
     const response = await fetch(URL_USERS + '/auth/login', {
       method: 'GET',
-      headers: { Authorization: 'Basic ' + btoa(`${email}:${password}`)},
+      headers: { Authorization: 'Basic ' + btoa(`${email}:${password}`) },
     });
     const dataToken = await response.json();
     return dataToken.access_token;
@@ -125,7 +99,6 @@ export async function registerUser(user) {
         password: user.password,
       }),
     });
-    console.log(user);
   } catch (error) {
     console.log('Error en el Fetch:', error);
   }

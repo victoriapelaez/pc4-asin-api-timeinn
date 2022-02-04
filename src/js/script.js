@@ -16,13 +16,12 @@ import * as newsPage from './all-news.js';
 import * as loginValidation from './form-validation/login-validation.js';
 import * as signupValidation from './form-validation/signup-validation.js';
 
-
 // TODO: Parcel HMR (delete)
 if (module.hot) {
   module.hot.accept();
 }
 
-/* const eventsDataCopy = [...model]; */  
+/* const eventsDataCopy = [...model]; */
 
 // ScrollUp handler
 scroll.scrollUpHandler();
@@ -32,28 +31,25 @@ const userName = helper.filterUserCookie()?.replace('user=', '');
 headerFooter.renderHeader(userName);
 headerFooter.renderFooter();
 
-
-
+// Render the first section: events of the day
 let oneEvent = [];
 window.addEventListener('load', () => {
-  model.getOneEvent(2).then(data => {
-    console.log(data);
+  model.getOneEvent(10).then(data => {
     oneEvent = data;
-    console.log(oneEvent);
-// Render the first section: events of the day
-    /* firstSection.render(firstSection.generateVideoMarkup(events)); */
-    firstSection.render(firstSection.generateInfoMarkup(model.getOneEvent,oneEvent)); 
-
-  })})
-
+    firstSection.render(
+      firstSection.generateVideoMarkup(model.getOneEvent, oneEvent)
+    );
+    firstSection.render(
+      firstSection.generateInfoMarkup(model.getOneEvent, oneEvent)
+    );
+  });
+});
 
 let events = [];
 window.addEventListener('load', () => {
   //const EVENTS = await model.getDataAllEvents();
   model.getDataAllEvents().then(data => {
     events = data;
-    
-    
 
     // Render the second section: events of the week
     secondSection.generateImgBkg(events);
@@ -114,13 +110,11 @@ newsSection
   .forEach(news => newsPage.render(newsPage.generateAllNews(news)));
 newsPage.showContent();
 
-
-
 // Login
 loginValidation.checkboxHandler();
 loginValidation.sendToSignUpPage();
 const usersData = [...helper.getLocalStorage(data.users)];
-loginValidation.loginBtnHandler(model.loginUser,usersData);
+loginValidation.loginBtnHandler(model.loginUser, usersData);
 
 // Signup
 signupValidation.emailFocusHandler();
@@ -133,7 +127,4 @@ signupValidation.passwMatchFocusHandler(); */
 
 //Show passw
 signupValidation.showPassw();
-  
-//buy one event
 
-/* allEventsPage.renderEvent(allEventsPage.generateEventMarkup) */
