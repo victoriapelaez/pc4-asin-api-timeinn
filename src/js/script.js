@@ -46,7 +46,7 @@ window.addEventListener('load', () => {
 });
 
 let events = [];
-window.addEventListener('load', () => {
+window.addEventListener('load',  () => {
   //const EVENTS = await model.getDataAllEvents();
   model.getDataAllEvents().then(data => {
     events = data;
@@ -56,13 +56,11 @@ window.addEventListener('load', () => {
     secondSection.render(secondSection.generateInfoMarkup(events));
     secondSection.displayEventHandler(events);
 
-    // Render the event when a tickets button is clicked
-    eventPage.render(eventPage.generateEventMarkup(events));
-
     // Render all events into all-events page
     events.forEach(event =>
       allEventsPage.render(allEventsPage.generateEventsMarkup(event))
     );
+
     // Filter events by type
     allEventsPage.renderFilterButtons(
       allEventsPage.generateFilterMarkup(events)
@@ -80,6 +78,7 @@ window.addEventListener('load', () => {
     allEventsPage.editEventHandler(model.editEvent, events);
   });
 });
+
 
 //Render Calendar
 calendar.render(calendar.createCalendar());
@@ -127,4 +126,3 @@ signupValidation.passwMatchFocusHandler(); */
 
 //Show passw
 signupValidation.showPassw();
-
