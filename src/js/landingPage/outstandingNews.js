@@ -10,10 +10,10 @@ const newsContainer = document.querySelector('.news-container');
  * @returns An array of sponsored news sorted by date
  */
 export const filterNews = function (news) {
-  const sponsoredNews = news.filter(function (n) {
+  const sponsoredNews = news?.filter(function (n) {
     return n.sponsored == true;
   });
-  const notSponsoredNews = news.filter(function (n) {
+  const notSponsoredNews = news?.filter(function (n) {
     return n.sponsored == false;
   });
 

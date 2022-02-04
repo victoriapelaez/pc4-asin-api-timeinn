@@ -6,7 +6,7 @@ const eventContainer = document.querySelector('.event-container');
  * @returns
  */
 export const generateEventMarkup = async function (events, funcImg) {
-let srcImage = await funcImg()
+let srcImage = await funcImg(1)
   return `
   <section class="event">
         <h1 class="event-title">${events[0].title}</h1>

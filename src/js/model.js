@@ -27,7 +27,7 @@ export async function getOneEvent(id) {
 //funcion añadir evento
 export async function addEvent(data) {
   try {
-    const response = await fetch(URL_ENDPOINT + '/events', {
+    fetch(URL_ENDPOINT + '/events', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -35,7 +35,7 @@ export async function addEvent(data) {
       body: JSON.stringify(data),
     });
   } catch (error) {
-    console.log('Error en el Fetch:', error);
+    console.error('Error en el Fetch:', error);
   }
 }
 
@@ -48,32 +48,32 @@ export async function deleteEvent(id) {
     const data = await response.json();
     return data;
   } catch (error) {
-    console.log('Error en el Fetch:', error);
+    console.error('Error en el Fetch:', error);
   }
 }
 
 //funcion actualizar evento
 export async function editEvent(id, data) {
   try {
-    const response = await fetch(URL_ENDPOINT + `/events/${id}`, {
+    fetch(URL_ENDPOINT + `/events/${id}`, {
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(data),
-    }).then(response => console.log(response.status));
+    });
   } catch (error) {
-    console.log('Error en el Fetch:', error);
+    console.error('Error en el Fetch:', error);
   }
 }
 //////////////////////////////////////////////////////////////////////
 
 //get images
 
-const imageUrl = 'http://localhost:3000/events/3';
+const imageUrl = 'http://localhost:3000/events';
 
- export async function getImage() {
-  const response = await fetch(imageUrl);
+ export async function getImage(id) {
+  const response = await fetch(imageUrl + '/' + id);
   const json = await response.json();
   const response2 = await fetch(json.imgURL);
   const blob = await response2.blob();
@@ -93,10 +93,9 @@ export async function loginUser(email, password) {
       headers: { Authorization: 'Basic ' + btoa(`${email}:${password}`) },
     });
     const dataToken = await response.json();
-    console.log(dataToken.access_token);
     helper.setCookie(`token=${dataToken.access_token}; max-age=604800; path=/; SameSite=Lax;`);
   } catch (error) {
-    console.log('Error en el Fetch:', error);
+    console.error('Error en el Fetch:', error);
   }
 }
 
@@ -114,6 +113,23 @@ export async function registerUser(user) {
       }),
     });
   } catch (error) {
-    console.log('Error en el Fetch:', error);
+    console.error('Error en el Fetch:', error);
   }
+}
+
+//get news from api
+export async function getNews(token) {
+  try {
+  const promise = await fetch(URL_USERS + '/news', {
+    method: "GET",
+    headers: {
+      Authorization: 'Bearer ' + token
+    }
+  });
+  const news = await promise.json();
+  if (!promise.ok) throw new Error(`${news.message} (${promise.status})`);
+    return news;
+} catch (err) {
+  console.error(err)
+}
 }

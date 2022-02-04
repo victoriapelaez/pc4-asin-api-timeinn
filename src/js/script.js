@@ -92,13 +92,18 @@ calendar.render(calendar.createCalendar());
 calendar.addEventCalendar();
 
 //Render the fourth section: news
+async function renderSectionNews() {
 if (helper.filterTokenCookie()) {
+  const token = helper.filterTokenCookie().split('=')[1]
+  const news = await model.getNews(token)
 newsSection
-  .filterNews(data.theaterData.news)
+  .filterNews(news)
   .slice(0, 4)
   .reverse()
   .forEach(news => newsSection.render(newsSection.generateNewsMarkup(news)));
 }
+}
+renderSectionNews()
 
 // Generate cookie and render subscription modal
 const cookies = helper.getCookies();
@@ -113,12 +118,17 @@ if (!cookies.includes('session=Cookie')) {
 }
 
 // Render the all-news Page
+async function renderNewsPage() {
 if (helper.filterTokenCookie()) {
+  const token = helper.filterTokenCookie().split('=')[1]
+  const news = await model.getNews(token)
 newsSection
-  .filterNews(data.theaterData.news)
+  .filterNews(news)
   .forEach(news => newsPage.render(newsPage.generateAllNews(news)));
 newsPage.showContent();
 }
+}
+renderNewsPage()
 
 // Login
 loginValidation.checkboxHandler();
