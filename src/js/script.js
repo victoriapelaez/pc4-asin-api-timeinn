@@ -16,13 +16,12 @@ import * as newsPage from './all-news.js';
 import * as loginValidation from './form-validation/login-validation.js';
 import * as signupValidation from './form-validation/signup-validation.js';
 
-
 // TODO: Parcel HMR (delete)
 if (module.hot) {
   module.hot.accept();
 }
 
-/* const eventsDataCopy = [...model]; */  
+/* const eventsDataCopy = [...model]; */
 
 // ScrollUp handler
 scroll.scrollUpHandler();
@@ -32,41 +31,36 @@ const userName = helper.filterUserCookie()?.replace('user=', '');
 headerFooter.renderHeader(userName);
 headerFooter.renderFooter();
 
-
-
 let oneEvent = [];
 window.addEventListener('load', () => {
-  model.getOneEvent(2).then(data => {
-    console.log(data);
+  model.getOneEvent(10).then(data => {
     oneEvent = data;
-    console.log(oneEvent);
-// Render the first section: events of the day
-    /* firstSection.render(firstSection.generateVideoMarkup(events)); */
-    firstSection.render(firstSection.generateInfoMarkup(model.getOneEvent,oneEvent)); 
-
-  })})
-
+    // Render the first section: events of the day
+    firstSection.render(
+      firstSection.generateVideoMarkup(model.getOneEvent, oneEvent)
+    );
+    firstSection.render(
+      firstSection.generateInfoMarkup(model.getOneEvent, oneEvent)
+    );
+  });
+});
 
 let events = [];
-window.addEventListener('load', () => {
+window.addEventListener('load',  () => {
   //const EVENTS = await model.getDataAllEvents();
   model.getDataAllEvents().then(data => {
     events = data;
-    
-    
 
     // Render the second section: events of the week
     secondSection.generateImgBkg(events);
     secondSection.render(secondSection.generateInfoMarkup(events));
     secondSection.displayEventHandler(events);
 
-    // Render the event when a tickets button is clicked
-    eventPage.render(eventPage.generateEventMarkup(events));
-
     // Render all events into all-events page
     events.forEach(event =>
       allEventsPage.render(allEventsPage.generateEventsMarkup(event))
     );
+
     // Filter events by type
     allEventsPage.renderFilterButtons(
       allEventsPage.generateFilterMarkup(events)
@@ -84,6 +78,14 @@ window.addEventListener('load', () => {
     allEventsPage.editEventHandler(model.editEvent, events);
   });
 });
+
+/* async function renderEvent(){
+// Render the event when a tickets button is clicked
+let events = await model.getDataAllEvents()
+let markup =await eventPage.generateEventMarkup(events, model.getImage);
+eventPage.render(markup);
+} */
+
 
 //Render Calendar
 calendar.render(calendar.createCalendar());
@@ -114,13 +116,11 @@ newsSection
   .forEach(news => newsPage.render(newsPage.generateAllNews(news)));
 newsPage.showContent();
 
-
-
 // Login
 loginValidation.checkboxHandler();
 loginValidation.sendToSignUpPage();
 const usersData = [...helper.getLocalStorage(data.users)];
-loginValidation.loginBtnHandler(model.loginUser,usersData);
+loginValidation.loginBtnHandler(model.loginUser, usersData);
 
 // Signup
 signupValidation.emailFocusHandler();
@@ -133,7 +133,7 @@ signupValidation.passwMatchFocusHandler(); */
 
 //Show passw
 signupValidation.showPassw();
-  
+
 //buy one event
 
 /* allEventsPage.renderEvent(allEventsPage.generateEventMarkup) */

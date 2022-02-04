@@ -5,11 +5,12 @@ const eventContainer = document.querySelector('.event-container');
  * @param {array} events
  * @returns
  */
-export const generateEventMarkup = function (events) {
+export async const generateEventMarkup = function (events, funcImg) {
+let srcImage = await funcImg()
   return `
   <section class="event">
         <h1 class="event-title">${events[0].title}</h1>
-        <img class="event-img" src="${events[0].imgURL}" alt="${
+        <img class="event-img" src="${srcImage}" alt="${
     events[0].title
   }">
         <aside class="event-form">

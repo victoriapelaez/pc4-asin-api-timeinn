@@ -5,9 +5,10 @@ const firstSection = document.querySelector('.day-events-container');
  * @param {array} events
  * @returns A string with the video html that will be used as the section background
  */
-export const generateVideoMarkup = function (events) {
+export const generateVideoMarkup = function (funcOneEvent,event) {
+  funcOneEvent(event.id)
   return `<video class="day-event-video" autoplay="autoplay" loop="loop" muted="muted">
-            <source src="${events[0].videoURL}" type="video/mp4">
+            <source src="${event.videoURL}" type="video/mp4">
           </video>`;
 };
 
