@@ -82,3 +82,14 @@ export const filterUserCookie = function () {
     console.error(err);
   }
 };
+
+// Filter token cookie
+export const filterTokenCookie = function () {
+  try {
+    const cookies = getCookies();
+    const [tokenCookie] = cookies?.filter(cookie => cookie.startsWith('token'));
+    return tokenCookie;
+  } catch (err) {
+    console.error(err);
+  }
+};
