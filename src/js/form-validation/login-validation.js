@@ -22,7 +22,6 @@ export const loginBtnHandler = function (usersFunc, usersArr) {
       usersArr
     );
     sendMsg(user);
-    console.log(emailInput.value, passInput.value);
   });
 };
 
@@ -35,7 +34,9 @@ const sendMsg = function (checkedUser) {
     }, 3000);
   } else if (checkedUser) {
     helper.setCookie(`user=${checkedUser.name}; path=/; SameSite=Lax;`);
-    window.location.replace('index.html');
+    setTimeout(() => {
+      window.location.replace('index.html');
+    }, 1000)
   }
 };
 

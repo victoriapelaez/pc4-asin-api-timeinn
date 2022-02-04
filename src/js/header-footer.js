@@ -115,6 +115,8 @@ const sendToLoginPage = function () {
 };
 
 const logOut = function () {
-  helper.delCookie(helper.filterUserCookie())
   helper.delCookie(helper.filterTokenCookie())
+  helper.delCookie(helper.filterUserCookie())
+  renderHeader('')
+  window.location.reload()
 }

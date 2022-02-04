@@ -1,3 +1,5 @@
+import * as helper from './helper.js'
+
 const URL_ENDPOINT = 'http://localhost:3000';
 
 //funcion get all events
@@ -91,7 +93,8 @@ export async function loginUser(email, password) {
       headers: { Authorization: 'Basic ' + btoa(`${email}:${password}`) },
     });
     const dataToken = await response.json();
-    return dataToken.access_token;
+    console.log(dataToken.access_token);
+    helper.setCookie(`token=${dataToken.access_token}; max-age=604800; path=/; SameSite=Lax;`);
   } catch (error) {
     console.log('Error en el Fetch:', error);
   }
@@ -100,7 +103,7 @@ export async function loginUser(email, password) {
 //register
 export async function registerUser(user) {
   try {
-    const response = await fetch(URL_USERS + '/auth/register', {
+    fetch(URL_USERS + '/auth/register', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
