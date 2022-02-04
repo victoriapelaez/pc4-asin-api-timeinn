@@ -68,17 +68,7 @@ export async function editEvent(id, data) {
 
 //get images
 
-const imageUrl = 'http://localhost:3000/events/1';
 
- export async function getImage() {
-  const response = await fetch(imageUrl);
-  const json = await response.json();
-  const response2 = await fetch(json.imgURL);
-  const blob = await response2.blob();
-  const url = URL.createObjectURL(blob);
-  return url;
-  
-}
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 

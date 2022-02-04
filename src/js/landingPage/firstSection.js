@@ -17,7 +17,7 @@ export const generateVideoMarkup = function (funcOneEvent,event) {
  * @param {array} events
  * @returns A string of the section data html
  */
-export const generateInfoMarkup = function (funcOneEvent, event) {
+ export const generateInfoMarkup = function (funcOneEvent, event) {
   funcOneEvent(event.id)
   const firstDate = new Date(event.dates[0]).toLocaleDateString();
   const lastDate = new Date(
