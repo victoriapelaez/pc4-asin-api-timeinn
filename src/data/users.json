@@ -1,0 +1,12 @@
+{
+  "users": [
+    { "id": 1, "email": "pepe@pepe.com", "password": "Pepe1234@" },
+    { "id": 2, "email": "toni@toni.es", "password": "toni1234" },
+    { "id": 3, "email": "foo@foo.es", "password": "bar" },
+    { "id": 4, "email": "b@b.es", "password": "bb" },
+    { "id": 5, "email": "victoria@gmail.com", "password": "Hola1234@" },
+    { "id": 6, "email": "victoria@gmail.com", "password": "Hola1234@" },
+    { "id": 7, "email": "victoria@gmail.com", "password": "Hola1234@" },
+    { "id": 8, "email": "joan@gmail.com", "password": "Hola1234@" }
+  ]
+}

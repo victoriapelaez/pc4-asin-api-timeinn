@@ -4,6 +4,26 @@
 
 P2+Pc2: TimeInn
 
+
+## P4 Javascript Asincron
+
+- Se recuerda que para lanzar el proyecto se utiliza parcel, por lo que sera necesario un npm install y ejecutar npm run start (que construirá la app)
+- Se ha añadido la carpeta src/data  con los .json que estan en la api para que puedas copiar y pegar los datos. La funcionalidad de la carpeta es para poder pasar los datos para su comprobación pero no interfiere nada en la app.
+- Se ha añadido un logout para facilitar las comprobaciones. Para ello basta clickar en el nombre del usuario del header y borra las cookies.
+
+### PRACTICA FETCH
+
+Para traer los datos de forma asincrona, he creado un .js llamado model, en el cual,meto las funciones del crud y otras, que posteriormente será llamadas en nuetro script.js, que es donde "montamos" la aplicación llamando a todas las funciones que renderizan.
+Pero además, las funciones también son llamadas en alguna función que no pertenece al script en forma de parámetro, para así "obtener" los datos necesarios al ejecutarse.
+
+- GET ALL: usado en los eventos de la landing page(second section, carrusel) y de la página exclusiva para todos los eventos.
+- GET ONE: usado para renderizar el evento destacado en la landing page del video (first section, video).
+- CREATE: usado en la página de eventos para crear un nuevo evento.
+- UPDATE: usado en la página de eventos para actualizar un evento.
+- DELETE: usado en la página de eventos para borrar un evento.
+- IMG: he usado las peticiones anidadas en la página que se genera al darle al boton tickets, y ahi saca un evento y la foto según el id elegido.
+
+
 ## P2 TimeInn
 
 ### _INFO_
@@ -68,3 +88,5 @@ El log-in genera una cookie de sesión con el nombre de usuario, que permite que
 - Los datos de cada usuario se almacenan en el _local storage_ del navegador, de manera que se crea una persistencia de esos datos en el navegador.
 - Se solicitaba mínimo 3 describe (tests) pero se han realizado 6.
 - Cuando el usuario se registra y sale el mensaje de resgistro completado, se redirecciona a la página para logearse. 
+
+

@@ -43,10 +43,9 @@ window.addEventListener('load', () => {
       firstSection.generateInfoMarkup(model.getOneEvent, oneEvent)
     );
   });
-});
 
 let events = [];
-window.addEventListener('load',  () => {
+
   //const EVENTS = await model.getDataAllEvents();
   model.getDataAllEvents().then(data => {
     events = data;
@@ -77,7 +76,7 @@ window.addEventListener('load',  () => {
     //Edit Event
     allEventsPage.editEventHandler(model.editEvent, events);
   });
-});
+
 
  async function renderEvent(){
 // Render the event when a tickets button is clicked
@@ -101,6 +100,12 @@ newsSection
   .slice(0, 4)
   .reverse()
   .forEach(news => newsSection.render(newsSection.generateNewsMarkup(news)));
+}else{
+  if (document.querySelector('.news-container')) {
+    console.log(document.querySelector('.news-container'));
+  document.querySelector('.news-container').innerHTML = "Acceso restringido. Es necesario estar registrado."
+  }
+  
 }
 }
 renderSectionNews()
@@ -126,6 +131,10 @@ newsSection
   .filterNews(news)
   .forEach(news => newsPage.render(newsPage.generateAllNews(news)));
 newsPage.showContent();
+}else{
+  if (document.querySelector('.all-news-container'))
+  console.log(document.querySelector('.all-news-container'));
+  document.querySelector('.all-news-container').innerHTML = "Acceso restringido. Es necesario estar registrado."
 }
 }
 renderNewsPage()
@@ -147,3 +156,4 @@ signupValidation.passwMatchFocusHandler(); */
 
 //Show passw
 signupValidation.showPassw();
+});
